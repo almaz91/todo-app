@@ -2,8 +2,6 @@ version: '3.8'
 
 services:
   todo-app:
-    container_name: todo-app-container
-    image: almaz91/todo-app-image
     restart: always
     build: ./
     command: ./todo-app
@@ -15,7 +13,6 @@ services:
       - DB_PASSWORD=qwerty
 
   db:
-    container_name: getscreen-db
     restart: always
     image: postgres:latest
     volumes:
