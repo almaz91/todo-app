@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/almaz91/todo-app/pkg/service"
 	"github.com/gin-gonic/gin"
 
@@ -17,10 +19,17 @@ func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
 
+func (h *Handler) indexHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"data": "HELLO WORLD!",
+	})
+}
+
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.GET("/", h.indexHandler)
 
 	auth := router.Group("/auth")
 	{
