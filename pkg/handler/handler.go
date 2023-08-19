@@ -27,6 +27,7 @@ func (h *Handler) indexHandler(c *gin.Context) {
 
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
+	gin.SetMode(gin.ReleaseMode)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("/", h.indexHandler)
