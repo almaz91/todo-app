@@ -60,7 +60,8 @@ func main() {
 			logrus.Fatalf("error occured while running hhtp server: %s", err.Error())
 		}
 	}()
-	logrus.Print("TodoApp Started")
+
+	logrus.Printf("TodoApp server start listen om port: %s", viper.GetString("port"))
 
 	// graceful shutdown
 	quit := make(chan os.Signal, 1)
