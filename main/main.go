@@ -23,7 +23,7 @@ import (
 // @version         1.0
 // @description     API Server for TodoList Application
 
-// @host      localhost:8000
+// @host      almazneft123.ru:80
 // @BasePath  /
 
 // @securityDefinitions.apikey ApiKeyAuth
