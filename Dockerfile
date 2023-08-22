@@ -8,4 +8,6 @@ COPY ./ ./
 RUN go mod download
 RUN go build -o todo-app ./main/main.go
 
-CMD ["./todo-app"]
+RUN chmod a+x ./todo-app.sh
+
+#CMD ["./todo-app"]
