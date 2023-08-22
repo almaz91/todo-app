@@ -37,7 +37,7 @@ definitions:
     - password
     - username
     type: object
-host: localhost:8000
+host: almazneft123.ru:80
 info:
   contact: {}
   description: API Server for TodoList Application
