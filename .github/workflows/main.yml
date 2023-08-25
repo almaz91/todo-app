@@ -1,4 +1,4 @@
-name: Publish Docker Image to Docker Hub.
+name: Publish Docker Image to Docker Hub and Deploy on the Server
 
 on:
   push:
@@ -20,49 +20,21 @@ jobs:
           tags: ${BRANCH_NAME}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
+          
+  prepare-environment:
+    runs-on: self-hosted
+    needs: build 
+    steps:
+      - name: Stop and remove containers, networks
+        run: docker-compose down
+      - name: Remove unused data
+        run: docker system prune -a -f
+        
   deploy:
-    needs: build
-    if: github.ref == 'refs/heads/prod'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted 
+    needs: prepare-environment
     steps:
-      - name: Checkout code
+      - name: checkout repo
         uses: actions/checkout@v3
-      - name: Trigger repo
-        uses: convictional/trigger-workflow-and-wait@v1.6.1
-        with:
-          owner: it-job-market-analytics
-          repo: compose-stack
-          ref: prod
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          workflow_file_name: deploy-runners.yaml
-          client_payload: '{}'
-          wait_interval: 11
-          trigger_workflow: true
-          wait_workflow: true
-          propagate_failure: true
-
-  deploy-2:
-    needs: build
-    if: github.ref == 'refs/heads/prod'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to VDS by Selectel via SSH action
-        uses: appleboy/ssh-action@v0.1.3
-        with:
-          host: ${{ secrets.DEPLOY_SERVER_HOST }}
-          username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
-          key: ${{ secrets.DEPLOY_SERVER_KEY }}
-          envs: IMAGE_NAME,REGISTRY,GITHUB_SHA,CONTAINER_NAME
-          script: |
-            # Login into Digital Ocean Registry
-            docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} $(echo $REGISTRY)
-
-            # Stop running container
-            docker stop $(echo $CONTAINER_NAME)
-
-            # Remove old container
-            docker rm $(echo $CONTAINER_NAME)
-
-            # Run a new docker compose from a new images
-            docker-compose up --build $(echo $CONTAINER_NAME)
+      - name: docker-compose
+        run: docker-compose up -d
