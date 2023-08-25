@@ -3,8 +3,7 @@ FROM golang:alpine AS builder
 RUN go version
 ENV GOPATH=/
 
-COPY ./ /github.com/almaz91/todo-app
-WORKDIR /github.com/almaz91/todo-app
+COPY ./ ./
 
 RUN go mod download
 
@@ -18,9 +17,7 @@ FROM alpine:latest
 
 #RUN apk --no-cache add ca-certificates
 
-COPY --from=builder /github.com/almaz91/todo-app/todo-app .
-COPY --from=builder /github.com/almaz91/todo-app/configs/ ./configs/
-COPY --from=builder /github.com/almaz91/todo-app/schema/ ./schema/
+COPY --from=builder COPY ./ ./
 
 EXPOSE 80
 
