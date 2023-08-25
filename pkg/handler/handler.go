@@ -21,7 +21,7 @@ func NewHandler(services *service.Service) *Handler {
 
 func (h *Handler) indexHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"data": "HELLO WORLD!",
+		"data": "HELLO WORLD CHANGED!",
 	})
 }
 
