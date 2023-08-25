@@ -12,12 +12,12 @@ services:
       - ./.database/postgres/data:/var/lib/postgresql/data
    
   todo-app:
-    image: 'almaz91/todo-app:dev'
+    image: 'almaz91/todo-app:main'
     depends_on:
       - db
     restart: always
     ports:
       - 80:80
     environment:
-      - "SPRING_PROFILES_ACTIVE=dev"
+      - "SPRING_PROFILES_ACTIVE=main"
     
