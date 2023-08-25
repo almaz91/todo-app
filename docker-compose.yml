@@ -2,25 +2,22 @@ version: '3.8'
 
 services:
   db:
-    container_name: db
-    restart: always
     image: postgres:latest
+    restart: always
     ports:
       - 5432:5432
-    env_file:
-      - .env
+    environment:
+      POSTGRES_PASSWORD: qwerty
     volumes:
       - ./.database/postgres/data:/var/lib/postgresql/data
-
+   
   todo-app:
-    container_name: todo-app
-    restart: always
-    build: 
-      context: ./
-    env_file:
-      - .env
-    command: ./todo-app
-    ports:
-      - 80:80
+    image: 'almaz91/todo-app:dev'
     depends_on:
       - db
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    
