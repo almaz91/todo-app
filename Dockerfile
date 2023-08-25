@@ -17,7 +17,7 @@ FROM alpine:latest
 
 #RUN apk --no-cache add ca-certificates
 
-COPY --from=builder COPY ./ ./
+COPY --from=builder ./ ./
 
 EXPOSE 80
 
