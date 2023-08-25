@@ -7,6 +7,8 @@ COPY ./ /github.com/almaz91/todo-app
 WORKDIR /github.com/almaz91/todo-app
 
 RUN go mod download
+RUN swag init -g .\main\main.go
+
 RUN go build -o todo-app ./main/main.go
 
 #lightweight docker container with binary

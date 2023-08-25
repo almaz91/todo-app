@@ -47,8 +47,6 @@ jobs:
         run: docker-compose down
       - name: Remove unused data
         run: docker system prune -a -f
-      - name: Update swagger scripts
-        run: swag init -g .\main\main.go
       - name: Database migration
         run: |
            curl -L https://packagecloud.io/golang-migrate/migrate/gpgkey | apt-key add -
