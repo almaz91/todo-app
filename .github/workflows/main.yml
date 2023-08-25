@@ -38,7 +38,7 @@ jobs:
           sort_keys: false
 
       - name: pull images
-        run: docker-compose -f docker-compose.yaml pull
+        run: docker-compose pull
 
       - name: restart containers
-        run: docker-compose -f docker-compose.yaml up -d
+        run: docker-compose up -d
