@@ -13,6 +13,8 @@ services:
    
   todo-app:
     image: 'almaz91/todo-app:main'
+    env_file:
+      - .env
     depends_on:
       - db
     restart: always
