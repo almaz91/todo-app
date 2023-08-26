@@ -24,5 +24,6 @@ ENV TZ Asia/Shanghai
 WORKDIR /app
 COPY --from=builder /build/configs /app/configs
 COPY --from=builder /build/todo-app /app/todo-app
+ADD .env /app
 
 CMD ["./todo-app"]
